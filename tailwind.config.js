@@ -9,8 +9,8 @@ module.exports = {
   },
   theme: {
     extend: {
-      colors: {
-        orange: "#ee4d2d",
+      fontFamily: {
+        flowers: ["YourCustomFont", "sans-serif"], // Đảm bảo font đã được import vào dự án
       },
     },
   },
@@ -18,7 +18,7 @@ module.exports = {
     plugin(function ({ addComponents, theme }) {
       addComponents({
         ".container": {
-          maxWidth: theme("columns.7xl"),
+          maxWidth: theme("screens.7xl"), // Sử dụng "screens" thay vì "columns"
           marginLeft: "auto",
           marginRight: "auto",
           paddingLeft: theme("spacing.4"),
@@ -26,6 +26,5 @@ module.exports = {
         },
       });
     }),
-    // require('@tailwindcss/line-clamp')
   ],
 };

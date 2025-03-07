@@ -4,7 +4,7 @@ const Header = () => {
   const [language, setLanguage] = useState("vi");
 
   return (
-    <header className="flex items-center justify-between bg-black py-3 px-6">
+    <header className="header-bg flex items-center justify-between py-3 px-10">
       <div className="flex items-center">
         <button
           className="flex items-center bg-gray-800 text-white px-3 py-1 rounded"
@@ -19,12 +19,12 @@ const Header = () => {
         </button>
       </div>
 
-     
-      <div className="flex-5 flex items-center justify-start space-x-6 mr-3">
-       
+      {/* Logo */}
+      <div className="flex-3 flex items-center space-x-6 ml-4">
+        {/* Logo */}
         <img src="/images/logoVin.png" alt="VinWonders Logo" className="h-8" />
 
-        
+        {/* Menu */}
         <nav>
           <ul className="flex items-center space-x-5 text-white text-sm">
             <li className="text-yellow-400 flex items-center">
@@ -40,8 +40,6 @@ const Header = () => {
       </div>
 
       {/* Menu */}
-
-
 
     </header>
   );
