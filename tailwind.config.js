@@ -10,7 +10,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        flowers: ["YourCustomFont", "sans-serif"], // Đảm bảo font đã được import vào dự án
+        flowers: ["YourCustomFont", "sans-serif"],
       },
     },
   },
