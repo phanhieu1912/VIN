@@ -1,11 +1,12 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom"; 
-import { routes } from "./routes"; 
-
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { routes } from "./routes";
+import "./translate/translate";
 import background from "./assets/background.png";
 import Header from "./components/HeaderComponent";
 import Sidebar from "./components/Sidebar";
+import DefaultComponent from "./components/DefaultComponent";
 
-function Layout() {
+function AppLayout() {
   const location = useLocation(); // ✅ Lấy đường dẫn hiện tại
   const isHomePage = location.pathname === "/"; // ✅ Kiểm tra nếu là trang chủ
 
@@ -30,10 +31,9 @@ function Layout() {
               key={index}
               path={route.path}
               element={
-                <>
-                  {route.isShowHeader && <Header />}
+                <DefaultComponent>
                   <route.page />
-                </>
+                </DefaultComponent>
               }
             />
           ))}
@@ -46,7 +46,7 @@ function Layout() {
 function App() {
   return (
     <Router>
-      <Layout />
+      <AppLayout /> {/* ✅ Bọc tất cả trong Router */}
     </Router>
   );
 }

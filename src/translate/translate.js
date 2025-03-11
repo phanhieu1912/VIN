@@ -1,0 +1,116 @@
+import i18next from "i18next";
+import { initReactI18next } from "react-i18next";
+
+i18next.use(initReactI18next).init({
+  resources: {
+    en: {
+      translation: {
+        home: "Home",
+        region: "Region",
+        menu: "Menu",
+        services: "Services",
+        contact: "Contact",
+        news: "News & Events",
+        switch: "English",
+        title: "Events & Promotions",
+        description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
+                an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                It has survived not only five centuries, but also the introduction of typesetting into the printing press,
+                still essentially unchanged. It was popularized in the 1960s.`,
+        promotions: [
+          "Holiday Promotion",
+          "Special Promotion",
+          "Weekend Offer",
+          "Discount Now",
+          "Flash Sale",
+          "Exclusive Deal",
+          "Buy 1 Get 1",
+          "End of Year Sale",
+        ],
+        titleBooking: "Book a Table Now",
+        openHours: "Opening Hours",
+        priceRange: "Price Range (per guest)",
+        cuisine: "Cuisine",
+        nameCuisine: "European Food - Asian Flavor",
+        highlights: "Highlights",
+        title1: "A Neoclassical Italian Villa",
+        title2: "Hidden in an Alley",
+        suitableFor: "Suitable for",
+        suitableOptions: `Dating, Family Party, Friends Gathering`,
+        infoTitle: "BOOKING INFORMATION",
+        date: "Reservation Date",
+        time: "Reservation Time",
+        guests: "Number of Guests",
+        eventType: "Event Type",
+        select: "Select",
+        send: "SEND",
+        eventOptions: ["Date Night", "Family Gathering", "Friends Meetup"],
+        Newstitle: "Events & Blocks",
+        contact: "Contact",
+        address: "Address",
+        timeOpen: "Opening Hours",
+        booking: "Book a table",
+        callMe: "Or via Facebook at",
+        highlights: "Payment methods",
+      },
+    },
+    vi: {
+      translation: {
+        home: "Trang chủ",
+        region: "Khu vực",
+        menu: "Menu",
+        services: "Dịch vụ",
+        contact: "Liên hệ",
+        news: "Bài viết & Sự kiện",
+        switch: "Tiếng Việt",
+        title: "Sự kiện & khuyến mãi",
+        description: `Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả, được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.
+                Lorem Ipsum đã được sử dụng như một văn bản chuẩn cho ngành công nghiệp in ấn từ những năm 1500, khi
+                một họa sĩ vô danh ghép nhiều đoạn văn bản với nhau để tạo thành một bản mẫu văn bản.
+                Đoạn văn bản này không những đã tồn tại năm thế kỉ, mà khi được áp dụng vào tin học văn phòng,
+                nội dung của nó vẫn không hề bị thay đổi. Nó đã được phổ biến trong những năm 1960.`,
+        promotions: [
+          "Khuyến Mãi Ngày Lễ",
+          "Khuyến Mãi Đặc Biệt",
+          "Ưu Đãi Cuối Tuần",
+          "Giảm Giá Ngay",
+          "Flash Sale",
+          "Ưu Đãi Đặc Biệt",
+          "Mua 1 Tặng 1",
+          "Sale Cuối Năm",
+        ],
+        titleBooking: "Đặt bàn ngay",
+        openHours: "Giờ mở cửa",
+        priceRange: "Mức giá (mỗi khách)",
+        cuisine: "Ẩm thực",
+        nameCuisine: "Món Âu - Vị Á",
+        highlights: "Điểm nổi bật",
+        title1: "Một căn biệt thự kiểu Ý tân cổ điển",
+        title2: "Ẩn mình trong một con hẻm",
+        suitableFor: "Thích hợp cho",
+        suitableOptions: `Hẹn hò, Tiệc gia đình, Họp mặt bạn bè`,
+        infoTitle: "THÔNG TIN ĐẶT BÀN",
+        date: "Ngày đặt",
+        time: "Giờ nhận bàn",
+        guests: "Số lượng người",
+        eventType: "Loại tiệc",
+        select: "Chọn",
+        send: "GỬI",
+        eventOptions: ["Hẹn hò", "Tiệc gia đình", "Họp mặt bạn bè"],
+        Newstitle: "Sự kiện & bài viết",
+        contact: "Liên Hệ",
+        address: "Địa chỉ",
+        timeOpen: "Giờ mở cửa",
+        booking: "Đặt bàn ngay",
+        callMe: "Hoặc qua Facebook",
+        highlights: "Phương thức thanh toán",
+      },
+    },
+  },
+  lng: "vi", // Ngôn ngữ mặc định
+  fallbackLng: "en", // Nếu không tìm thấy dịch, dùng tiếng Anh
+  interpolation: { escapeValue: false },
+});
+
+export default i18next;

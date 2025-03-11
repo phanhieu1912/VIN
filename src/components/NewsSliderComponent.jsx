@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { LanguageContext } from "../context/LanguageContext";
+import { useTranslation } from "react-i18next";
 const news = [
   {
     title: "HẦM RƯỢU BÍ ẨN TRONG HẺM - NƠI CẦU HÔN NHÀ HÀNG MARS VENUS",
@@ -32,21 +32,12 @@ const news = [
 ];
 
 const NewsSlider = () => {
-  const { language } = useContext(LanguageContext); 
+  const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const step = 10; 
-  const maxTranslate = 100; 
+  const step = 20; 
+  const maxTranslate = 40; 
   const progress = (currentIndex / maxTranslate) * 100; // Cập nhật tiến trình
-  const translations = {
-    vi: {
-        title: "Sự kiện & bài viết",
-        
-    },
-    en: {
-        title: "Events & Blocks",
-         
-    },
-};
+
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev - step < 0 ? maxTranslate - step : prev - step));
   };
@@ -56,9 +47,9 @@ const NewsSlider = () => {
   };
 
   return (
-    <div className="max-w-[1200px] mx-auto flex flex-col gap-8">
+    <div className="max-w-[74%] mx-auto flex flex-col gap-8">
       {/* Tiêu đề */}
-      <h2 className="text-3xl sm:text-4xl font-bold text-yellow-500">{translations[language].title}</h2>
+      <h2 className="text-4xl font-bold text-yellow-400 mb-4 font-dancing-script">{t("Newstitle")}</h2>
 
       {/* Slider Container */}
       <div className="relative overflow-hidden">
@@ -117,13 +108,6 @@ const NewsSlider = () => {
         </div>
       </div>
 
-      {/* Xem thêm */}
-      {/* <a
-        href="/su-kien-va-bai-viet/"
-        className="block w-fit mx-auto px-6 py-3 rounded-md bg-yellow-500 text-white font-semibold hover:bg-yellow-600 transition"
-      >
-        Xem thêm
-      </a> */}
     </div>
   );
 };
