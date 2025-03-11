@@ -1,12 +1,14 @@
 import React from "react";
 import { FaFacebook, FaYoutube, FaInstagram, FaTiktok } from "react-icons/fa";
-
+import { useNavigate } from "react-router-dom";
 const Sidebar = () => {
+    const navigate = useNavigate(); 
     return (
         <div className="fixed left-4 top-1/2 transform -translate-y-1/2 w-36 bg-transparent z-50 flex flex-col items-center">
             {/* Các nút đặt bàn */}
             <div className="space-y-2 w-full">
-                <button className="w-32 text-black py-1 text-xs rounded-md bg-gradient-to-b from-yellow-200 to-yellow-500 shadow-md hover:opacity-80 transition-all duration-200">
+                <button className="w-32 text-black py-1 text-xs rounded-md bg-gradient-to-b from-yellow-200 to-yellow-500 shadow-md hover:opacity-80 transition-all duration-200"
+                onClick={() => navigate("/order")}>
                     Đặt bàn ngay
                 </button>
                 <button className="w-32 text-black py-1 text-xs rounded-md bg-gradient-to-b from-yellow-200 to-yellow-500 shadow-md hover:opacity-80 transition-all duration-200">

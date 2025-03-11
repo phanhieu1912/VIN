@@ -1,14 +1,14 @@
-// import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom"; 
+import { routes } from "./routes"; 
+
 import background from "./assets/background.png";
 import Header from "./components/HeaderComponent";
-import HeroSection from "./components/HeroSectionComponent";
-import PromotionSection from "./components/PromosionComponent";
-import BookingForm from "./components/BookingFromComponent";
-import NewsSlider from "./components/NewsSliderComponent";
-import HeroSlider from "./components/ContactComponent";
 import Sidebar from "./components/Sidebar";
 
-function App() {
+function Layout() {
+  const location = useLocation(); // ✅ Lấy đường dẫn hiện tại
+  const isHomePage = location.pathname === "/"; // ✅ Kiểm tra nếu là trang chủ
+
   return (
     <div
       className="flex min-h-screen w-full"
@@ -19,19 +19,35 @@ function App() {
         backgroundAttachment: "fixed",
       }}
     >
-      {/* Sidebar - Cố định ở bên trái */}
-      <Sidebar />
+      {/* ✅ Chỉ hiển thị Sidebar nếu là trang Home */}
+      {isHomePage && <Sidebar />}
 
       {/* Nội dung chính */}
       <div className="flex-1 overflow-y-auto">
-        <Header />
-        <HeroSection />
-        <PromotionSection />
-        <BookingForm />
-        <NewsSlider />
-        <HeroSlider />
+        <Routes>
+          {routes.map((route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              element={
+                <>
+                  {route.isShowHeader && <Header />}
+                  <route.page />
+                </>
+              }
+            />
+          ))}
+        </Routes>
       </div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Layout />
+    </Router>
   );
 }
 
