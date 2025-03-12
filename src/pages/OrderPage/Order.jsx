@@ -1,17 +1,18 @@
 import React, { useState, useContext } from "react";
 import { FaClock, FaUtensils, FaStar, FaUsers, FaDollarSign } from "react-icons/fa";
 import { Slider } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
 import { ImPriceTags } from "react-icons/im";
 import { GiKnifeFork } from "react-icons/gi";
 import { LanguageContext } from "../../context/LanguageContext";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 const branches = [
-  { name: "LURNARIA CRUISE", location: "Thuyền", image: "/images/hinhanh1.png", price: [200000, 600000] },
+  { name: "LURNARIA CRUISE", location: "Thuyền", image: "/images/hinhanh1.png", price: [200000, 700000] },
   { name: "WHITE PIER", location: "Thanh Đa", image: "/images/hinhanh2.png", price: [300000, 900000] },
   { name: "VINTAGE VILLA", location: "Quận 10", image: "/images/hinhanh3.png", price: [400000, 1000000] },
   { name: "WINE CELLAR", location: "Phú Nhuận", image: "/images/order1.png", price: [500000, 1200000] },
-  { name: "GARDEN IN ISLAND", location: "Quận 7", image: "/images/order2.png", price: [850000, 1300000] },
+  { name: "GARDEN IN ISLAND", location: "Quận 7", image: "/images/order2.png", price: [450000, 1300000] },
 ];
 
 const steps = [
@@ -53,7 +54,21 @@ const Order = () => {
     // Điều hướng sang trang thanh toán và truyền dữ liệu qua state
     navigate("/thanhtoan", { state: { bookingData: formData } });
   };
+  function ValueLabelComponent(props) {
+    const { children, value } = props;
 
+    return (
+      <Tooltip
+        open
+        enterTouchDelay={0}
+        placement={value >= 600000 ? "top" : "bottom"} // Điều kiện đổi vị trí
+        title={`${value.toLocaleString("vi-VN")} VND`}
+        arrow
+      >
+        {children}
+      </Tooltip>
+    );
+  }
   return (
     <div className="min-h-screen bg-cover bg-center text-white">
       {/* Thanh tiến trình */}
@@ -95,30 +110,65 @@ const Order = () => {
 
       {/* Danh sách chi nhánh */}
       <div className="flex justify-center mt-3">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-4 max-w-7xl w-[60%]">
-          {branches.map((branch, index) => (
-            <div
-              key={index}
-              className={`cursor-pointer rounded-lg overflow-hidden border ${selectedBranch === index ? "border-2 border-yellow-500" : "border border-white"
-                } transition-all`}
-              onClick={() => handleBranchSelect(index)}
-            >
-              <div className="py-2 bg-black/50">
-                <h3 className="text-white text-xs font-semibold uppercase text-center">{branch.name}</h3>
-                <p className="text-gray-400 text-xs text-center">{branch.location}</p>
+        <div className="flex flex-col items-center max-w-4xl w-[40%] mx-auto space-y-4">
+          {/* Hàng trên (3 hình) */}
+          <div className="grid grid-cols-3 gap-4 w-full">
+            {branches.slice(0, 3).map((branch, index) => (
+              <div
+                key={index}
+                className={`cursor-pointer rounded-lg overflow-hidden border 
+            ${selectedBranch === index ? "border-2 border-yellow-500" : "border border-white"} 
+            transition-all`}
+                onClick={() => handleBranchSelect(index)}
+              >
+                <div className="py-2 bg-black/50">
+                  <h3 className="text-white text-xs font-semibold uppercase text-center">{branch.name}</h3>
+                  <p className="text-gray-400 text-xs text-center">{branch.location}</p>
+                </div>
+                <div className="overflow-hidden aspect-square">
+                  <img
+                    src={branch.image}
+                    alt={branch.name}
+                    className={`w-full h-full object-cover transition-all 
+                ${selectedBranch === index ? "grayscale-0" : "grayscale"}`}
+                  />
+                </div>
               </div>
-              <div className="overflow-hidden aspect-square">
-                <img
-                  src={branch.image}
-                  alt={branch.name}
-                  className={`w-full h-full object-cover transition-all ${selectedBranch === index ? "grayscale-0" : "grayscale"
-                    }`}
-                />
+            ))}
+          </div>
+
+          {/* Hàng dưới (2 hình, căn giữa) */}
+          <div className="grid grid-cols-2  gap-4 w-[70%]">
+            {branches.slice(3, 5).map((branch, index) => (
+              <div
+                key={index + 3}
+                className={`cursor-pointer rounded-lg overflow-hidden border 
+            ${selectedBranch === index + 3 ? "border-2 border-yellow-500" : "border border-white"} 
+            transition-all`}
+                onClick={() => handleBranchSelect(index + 3)}
+              >
+                <div className="py-2 bg-black/50">
+                  <h3 className="text-white text-xs font-semibold uppercase text-center">{branch.name}</h3>
+                  <p className="text-gray-400 text-xs text-center">{branch.location}</p>
+                </div>
+                <div className="overflow-hidden aspect-square">
+                  <img
+                    src={branch.image}
+                    alt={branch.name}
+                    className={`w-full h-full object-cover transition-all 
+                ${selectedBranch === index + 3 ? "grayscale-0" : "grayscale"}`}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
+
+
+
+
+
 
 
       {/* Hiển thị BookingForm khi click vào chi nhánh */}
@@ -160,27 +210,13 @@ const Order = () => {
 
                     {/* Thanh Slider */}
                     <Slider
-                      value={branches[selectedBranch]?.price || [0, 1000000]} // Giá trị min - max
-                      min={100000} // Giá thấp nhất
-                      max={1400000} // Giá cao nhất
+                      value={branches[selectedBranch]?.price || [0, 1000000]}
+                      min={100000}
+                      max={1400000}
                       step={50000}
                       valueLabelDisplay="on"
-                      valueLabelFormat={(value) => `${value.toLocaleString("vi-VN")} VND`}
-                      componentsProps={{
-                        valueLabel: {
-                          style: (props) => ({
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                            background: "transparent",
-                            color: "#ffcc00",
-                            transform: "none",
-                            display: "block",
-                            position: "absolute",
-                            zIndex: 10,
-                            // Điều kiện để đảo ngược vị trí
-                            top: props.children === 600000 ? "40px" : "-30px",
-                          }),
-                        },
+                      slots={{
+                        valueLabel: ValueLabelComponent, // Sử dụng component tùy chỉnh
                       }}
                       sx={{
                         "& .MuiSlider-thumb": {
@@ -198,6 +234,7 @@ const Order = () => {
                         },
                       }}
                     />
+
                   </div>
                   <div className="flex items-center space-x-2 mt-12">
                     <GiKnifeFork className="text-white" />
