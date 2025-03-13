@@ -33,7 +33,8 @@ const Order = () => {
     eventType: "",
     price: " ",
   });
-  const [price, setPrice] = useState([0, 0]);
+  const [errors, setErrors] = useState({});
+  const [touchedFields, setTouchedFields] = useState({});
   const handleBranchSelect = (index) => {
     setSelectedBranch(index);
     setFormData((prev) => ({
@@ -44,14 +45,53 @@ const Order = () => {
 
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    // Nếu đã submit lỗi trước đó, kiểm tra lại khi nhập liệu
+    if (touchedFields[name]) {
+      validateField(name, value);
+    }
   };
 
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouchedFields((prev) => ({ ...prev, [name]: true }));
+    validateField(name, value);
+  };
+
+  // Kiểm tra lỗi cho từng ô input
+  const validateField = (name, value) => {
+    let error = "";
+    if (!value) {
+      error = "Vui lòng điền thông tin!";
+    }
+    setErrors((prev) => ({ ...prev, [name]: error }));
+  };
+
+  // Xử lý submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Booking Data:", formData);
+    let newErrors = {};
 
-    // Điều hướng sang trang thanh toán và truyền dữ liệu qua state
+    Object.keys(formData).forEach((key) => {
+      if (!formData[key]) {
+        newErrors[key] = "Vui lòng điền thông tin!";
+      }
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setTouchedFields({
+        date: true,
+        time: true,
+        guests: true,
+        eventType: true,
+      });
+      return;
+    }
+
+    console.log("Booking Data:", formData);
     navigate("/thanhtoan", { state: { bookingData: formData } });
   };
   function ValueLabelComponent(props) {
@@ -166,11 +206,6 @@ const Order = () => {
       </div>
 
 
-
-
-
-
-
       {/* Hiển thị BookingForm khi click vào chi nhánh */}
       {selectedBranch !== null && (
         <div className="mt-10 flex flex-col items-center">
@@ -269,33 +304,38 @@ const Order = () => {
                       { name: "guests", type: "select", options: ["1", "2", "3", "4", "5+"], value: formData.guests },
                       { name: "eventType", type: "select", options: t("eventOptions", { returnObjects: true }), value: formData.eventType },
                     ].map((field, index) => (
-                      <div key={index} className="flex items-center gap-4">
-                        {/* Đảm bảo label có chiều rộng cố định */}
-                        <label className="text-white w-40 flex-shrink-0">
-                          {t(field.name)} <span className="text-red-500">*</span>
-                        </label>
-
-                        {/* Input hoặc Select */}
-                        {field.type === "date" ? (
-                          <input
-                            type="date"
-                            name={field.name}
-                            value={field.value}
-                            onChange={handleChange}
-                            className="w-full p-3 rounded bg-[#333333] text-white focus:ring-2 focus:ring-yellow-500"
-                          />
-                        ) : (
-                          <select
-                            name={field.name}
-                            value={field.value}
-                            onChange={handleChange}
-                            className="w-full p-3 rounded bg-[#333333] text-white focus:ring-2 focus:ring-yellow-500"
-                          >
-                            <option value="">{t("select")}</option>
-                            {field.options.map((option, idx) => (
-                              <option key={idx} value={option}>{option}</option>
-                            ))}
-                          </select>
+                      <div key={index} className="flex flex-col gap-1">
+                        <div className="flex items-center gap-4">
+                          <label className="text-white w-40 flex-shrink-0">
+                            {t(field.name)} <span className="text-red-500">*</span>
+                          </label>
+                          {field.type === "date" ? (
+                            <input
+                              type="date"
+                              name={field.name}
+                              value={field.value}
+                              onChange={handleChange}
+                              onBlur={handleBlur} // Kiểm tra lỗi khi rời khỏi ô input
+                              className={`w-full p-3 rounded bg-[#333333] text-white focus:ring-2 focus:ring-yellow-500 ${errors[field.name] && "border border-red-500"}`}
+                            />
+                          ) : (
+                            <select
+                              name={field.name}
+                              value={field.value}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              className={`w-full p-3 rounded bg-[#333333] text-white focus:ring-2 focus:ring-yellow-500 ${errors[field.name] && "border border-red-500"}`}
+                            >
+                              <option value="">{t("select")}</option>
+                              {field.options.map((option, idx) => (
+                                <option key={idx} value={option}>{option}</option>
+                              ))}
+                            </select>
+                          )}
+                        </div>
+                        {/* Hiển thị lỗi bên dưới input nếu có */}
+                        {errors[field.name] && touchedFields[field.name] && (
+                          <p className="text-red-500 text-sm">{errors[field.name]}</p>
                         )}
                       </div>
                     ))}
